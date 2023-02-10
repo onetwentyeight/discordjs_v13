@@ -1,9 +1,5 @@
 {
-    "token": "MTA0Nzg2NzMyMzk5NTkyMjUzNA.GbI4Vn.8v3Jg0-v_2ZPow7x1hDAvoX0p2RWjpwYmS-heo",
-    "commandCount": "14",
+    "token": "your bot prefix",\
     "cooldownTime": "2.5",
-    "prefix": ">!",
-
-    "activityName": "${client.guilds.cache.size} servers",
-    "activityType": "COMPETING"
+    "prefix": "!",
 }
