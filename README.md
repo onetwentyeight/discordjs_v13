@@ -1,5 +1,5 @@
 # Discord.js v13
-This is the source code for my YouTube playlist.
+This is the source code for my YouTube tutorial.
 
 ## Useful Links
 - YouTube playlist: [Click here](https://www.youtube.com/playlist?list=PLIyfGwNKOLhTGJ___wOb0B63zLMz9MfaL)
