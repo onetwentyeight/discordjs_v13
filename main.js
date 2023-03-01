@@ -19,16 +19,21 @@ client.once('ready', () => {
   activity();
   console.log(`[READY] Logged in as ${client.user.tag}!\n────────────────────────────────────`);
 });
-// setInterval(() => activity(), 30000);
 
 const cooldowns = new Map();
 const excludedUsers = ['1069278712295600159'];
+const guildPrefixes = new Map();
 
 client.on('messageCreate', (message) => {
   if (!message.content.startsWith(prefix)) return;
 
+  let guildPrefix = prefix;
+  if (guildPrefixes.has(message.guild.id)) {
+    guildPrefix = guildPrefixes.get(message.guild.id);
+  }
+
   let [commandName, ...args] = message.content
-    .slice(prefix.length)
+    .slice(guildPrefix.length)
     .trim()
     .split(/ +/);
   commandName = commandName.toLowerCase();
@@ -47,7 +52,7 @@ client.on('messageCreate', (message) => {
   }
 
   if (command)
-    console.log(`[COMMAND] [${new Date().toDateString('en-US', { timeZone: 'Africa/Cairo' })}] ${message.author.tag} used ${prefix}${command.name} ${args.join(' ')}`)
+    console.log(`[COMMAND] [${new Date().toDateString('en-US', { timeZone: 'Africa/Cairo' })}] ${message.author.tag} used ${guildPrefix}${command.name} ${args.join(' ')}`)
 
   const userId = message.author.id;
 
@@ -93,7 +98,6 @@ client.on('messageCreate', (message) => {
   }
 });
 
-
 (async () => {
   const commandDirs = await readdir(join(__dirname, 'commands'),
     {
@@ -112,7 +116,9 @@ client.on('messageCreate', (message) => {
   }
 })();
 
-client.on('guildCreate', guild => {
+client.on('guildCreate', (guild) => {
+  guildPrefixes.set(guild.id, defaultPrefix);
+  
   const topChannel = guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').sort((a, b) => a.rawPosition - b.rawPosition || a.id - b.id).first();
 
   try {
@@ -131,7 +137,7 @@ client.on('guildCreate', guild => {
 });
 
 client.on('guildDelete', guild => {
-  console.log(`[LEAVE] Beverage is now in ${client.guilds.cache.size} servers!`);
+  guildPrefixes.delete(guild.id);
   activity();
 });
 
